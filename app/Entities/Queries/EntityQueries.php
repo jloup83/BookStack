@@ -15,6 +15,7 @@ class EntityQueries
 {
     public function __construct(
         public BookshelfQueries $shelves,
+        public CollectionQueries $collections,
         public BookQueries $books,
         public ChapterQueries $chapters,
         public PageQueries $pages,
@@ -112,6 +113,7 @@ class EntityQueries
             'page' => $this->pages,
             'chapter' => $this->chapters,
             'book' => $this->books,
+            'collection' => $this->collections,
             'bookshelf' => $this->shelves,
             default => null,
         };

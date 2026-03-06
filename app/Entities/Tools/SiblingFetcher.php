@@ -6,6 +6,7 @@ use BookStack\Entities\EntityProvider;
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Bookshelf;
 use BookStack\Entities\Models\Chapter;
+use BookStack\Entities\Models\Collection as CollectionEntity;
 use BookStack\Entities\Models\Page;
 use BookStack\Entities\Queries\EntityQueries;
 use Illuminate\Support\Collection;
@@ -50,6 +51,11 @@ class SiblingFetcher
         // Shelf
         if ($entity instanceof Bookshelf) {
             $entities = $this->queries->shelves->visibleForList()->orderBy('name', 'asc')->get();
+        }
+
+        // Collection
+        if ($entity instanceof CollectionEntity) {
+            $entities = $this->queries->collections->visibleForList()->orderBy('name', 'asc')->get();
         }
 
         return $entities;

@@ -46,6 +46,12 @@ class JointPermissionBuilder
             ->chunk(50, function (EloquentCollection $shelves) use ($roles) {
                 $this->createManyJointPermissions($shelves->all(), $roles);
             });
+
+        // Chunk through all collections
+        $this->queries->collections->start()->withTrashed()->select(['id', 'owned_by'])
+            ->chunk(50, function (EloquentCollection $collections) use ($roles) {
+                $this->createManyJointPermissions($collections->all(), $roles);
+            });
     }
 
     /**
@@ -97,6 +103,12 @@ class JointPermissionBuilder
         $this->queries->shelves->start()->select(['id', 'owned_by'])
             ->chunk(100, function ($shelves) use ($roles) {
                 $this->createManyJointPermissions($shelves->all(), $roles);
+            });
+
+        // Chunk through all collections
+        $this->queries->collections->start()->select(['id', 'owned_by'])
+            ->chunk(100, function ($collections) use ($roles) {
+                $this->createManyJointPermissions($collections->all(), $roles);
             });
     }
 

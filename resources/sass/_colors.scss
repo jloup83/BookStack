@@ -77,6 +77,10 @@
   color: var(--color-book);
   fill: var(--color-book);
 }
+.text-collection, .text-collection:hover {
+  color: var(--color-collection);
+  fill: var(--color-collection);
+}
 .text-page, .text-page:hover {
   color: var(--color-page);
   fill: var(--color-page);
@@ -101,6 +105,9 @@
 }
 .bg-chapter {
   background-color: var(--color-chapter);
+}
+.bg-collection {
+  background-color: var(--color-collection);
 }
 .bg-bookshelf {
   background-color: var(--color-bookshelf);

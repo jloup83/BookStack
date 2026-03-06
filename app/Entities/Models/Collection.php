@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $description
  * @property string $description_html
  */
-class Bookshelf extends Entity implements HasDescriptionInterface, HasCoverInterface
+class Collection extends Entity implements HasDescriptionInterface, HasCoverInterface
 {
     use HasFactory;
     use ContainerTrait;
@@ -23,12 +23,12 @@ class Bookshelf extends Entity implements HasDescriptionInterface, HasCoverInter
     protected $fillable = ['name'];
 
     /**
-     * Get the books in this shelf.
+     * Get the books in this collection.
      * Should not be used directly since it does not take into account permissions.
      */
     public function books(): BelongsToMany
     {
-        return $this->belongsToMany(Book::class, 'bookshelves_books', 'bookshelf_id', 'book_id')
+        return $this->belongsToMany(Book::class, 'collection_books', 'collection_id', 'book_id')
             ->select(['entities.*', 'entity_container_data.*'])
             ->withPivot('order')
             ->orderBy('order', 'asc');
@@ -43,34 +43,23 @@ class Bookshelf extends Entity implements HasDescriptionInterface, HasCoverInter
     }
 
     /**
-     * Get the collections in this shelf.
+     * Get the shelves this collection belongs to.
      */
-    public function collections(): BelongsToMany
+    public function shelves(): BelongsToMany
     {
-        return $this->belongsToMany(Collection::class, 'bookshelves_collections', 'bookshelf_id', 'collection_id')
-            ->select(['entities.*', 'entity_container_data.*'])
-            ->withPivot('order')
-            ->orderBy('order', 'asc');
+        return $this->belongsToMany(Bookshelf::class, 'bookshelves_collections', 'collection_id', 'bookshelf_id');
     }
 
     /**
-     * Related collections that are visible to the current user.
-     */
-    public function visibleCollections(): BelongsToMany
-    {
-        return $this->collections()->scopes('visible');
-    }
-
-    /**
-     * Get the url for this bookshelf.
+     * Get the url for this collection.
      */
     public function getUrl(string $path = ''): string
     {
-        return url('/shelves/' . implode('/', [urlencode($this->slug), trim($path, '/')]));
+        return url('/collections/' . implode('/', [urlencode($this->slug), trim($path, '/')]));
     }
 
     /**
-     * Check if this shelf contains the given book.
+     * Check if this collection contains the given book.
      */
     public function contains(Book $book): bool
     {
@@ -78,7 +67,7 @@ class Bookshelf extends Entity implements HasDescriptionInterface, HasCoverInter
     }
 
     /**
-     * Add a book to the end of this shelf.
+     * Add a book to the end of this collection.
      */
     public function appendBook(Book $book): void
     {
@@ -87,7 +76,7 @@ class Bookshelf extends Entity implements HasDescriptionInterface, HasCoverInter
         }
 
         $maxOrder = $this->books()->max('order');
-        $this->books()->attach($book->id, ['order' => $maxOrder + 1]);
+        $this->books()->attach($book->id, ['order' => ($maxOrder ?? 0) + 1]);
     }
 
     public function coverInfo(): EntityCover

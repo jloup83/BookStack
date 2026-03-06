@@ -6,6 +6,9 @@
         <a href="{{ url('/shelves') }}"
            data-shortcut="shelves_view">@icon('bookshelf'){{ trans('entities.shelves') }}</a>
     @endif
+    @if(userCanOnAny(\BookStack\Permissions\Permission::View, \BookStack\Entities\Models\Collection::class) || userCan(\BookStack\Permissions\Permission::CollectionViewAll) || userCan(\BookStack\Permissions\Permission::CollectionViewOwn))
+        <a href="{{ url('/collections') }}">@icon('collection'){{ trans('entities.collections') }}</a>
+    @endif
     <a href="{{ url('/books') }}" data-shortcut="books_view">@icon('books'){{ trans('entities.books') }}</a>
     @if(!user()->isGuest() && userCan(\BookStack\Permissions\Permission::SettingsManage))
         <a href="{{ url('/settings') }}"

@@ -6,6 +6,7 @@ use BookStack\Entities\EntityProvider;
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Bookshelf;
 use BookStack\Entities\Models\Chapter;
+use BookStack\Entities\Models\Collection;
 use BookStack\Entities\Models\EntityContainerData;
 use BookStack\Entities\Models\HasCoverInterface;
 use BookStack\Entities\Models\Deletion;
@@ -39,6 +40,18 @@ class TrashCan
         $this->ensureDeletable($shelf);
         Deletion::createForEntity($shelf);
         $shelf->delete();
+    }
+
+    /**
+     * Send a collection to the recycle bin.
+     *
+     * @throws NotifyException
+     */
+    public function softDestroyCollection(Collection $collection)
+    {
+        $this->ensureDeletable($collection);
+        Deletion::createForEntity($collection);
+        $collection->delete();
     }
 
     /**
@@ -143,7 +156,23 @@ class TrashCan
     {
         $this->destroyCommonRelations($shelf);
         $shelf->books()->detach();
+        $shelf->collections()->detach();
         $shelf->forceDelete();
+
+        return 1;
+    }
+
+    /**
+     * Remove a collection from the system.
+     *
+     * @throws Exception
+     */
+    protected function destroyCollection(Collection $collection): int
+    {
+        $this->destroyCommonRelations($collection);
+        $collection->books()->detach();
+        $collection->shelves()->detach();
+        $collection->forceDelete();
 
         return 1;
     }
@@ -376,6 +405,8 @@ class TrashCan
                 return $this->destroyChapter($entity);
             } else if ($entity instanceof Book) {
                 return $this->destroyBook($entity);
+            } else if ($entity instanceof Collection) {
+                return $this->destroyCollection($entity);
             } else if ($entity instanceof Bookshelf) {
                 return $this->destroyShelf($entity);
             }

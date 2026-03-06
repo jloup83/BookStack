@@ -4,6 +4,7 @@ namespace BookStack\Entities\Tools;
 
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Bookshelf;
+use BookStack\Entities\Models\Collection;
 use BookStack\Uploads\Image;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 class EntityCover
 {
     public function __construct(
-        protected Book|Bookshelf $entity,
+        protected Book|Bookshelf|Collection $entity,
     ) {
     }
 

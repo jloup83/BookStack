@@ -66,6 +66,7 @@ return [
     'breadcrumb_siblings_for_page' => 'Navigate siblings for page',
     'breadcrumb_siblings_for_chapter' => 'Navigate siblings for chapter',
     'breadcrumb_siblings_for_book' => 'Navigate siblings for book',
+    'breadcrumb_siblings_for_collection' => 'Navigate siblings for collection',
     'breadcrumb_siblings_for_bookshelf' => 'Navigate siblings for shelf',
 
     // Permissions and restrictions
@@ -196,10 +197,22 @@ return [
     'books_copy_success' => 'Book successfully copied',
 
     // Collections
+    'collection' => 'Collection',
+    'collections' => 'Collections',
     'collections_create' => 'Create New Collection',
     'collections_new_action' => 'New Collection',
     'collections_save' => 'Save Collection',
     'collections_tags' => 'Collection Tags',
+    'collections_edit' => 'Edit Collection',
+    'collections_edit_named' => 'Edit Collection :name',
+    'collections_delete' => 'Delete Collection',
+    'collections_delete_named' => 'Delete Collection :name',
+    'collections_delete_explain' => 'This will delete the collection with the name \':name\'. The books inside will not be deleted.',
+    'collections_delete_confirmation' => 'Are you sure you want to delete this collection?',
+    'collections_empty_contents' => 'No books have been added to this collection.',
+    'collections_books' => 'Books in this Collection',
+    'collections_add_books' => 'Available Books',
+    'collections_drag_books' => 'Drag books below to re-order them',
 
     // Chapters
     'chapter' => 'Chapter',

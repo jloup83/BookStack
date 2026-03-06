@@ -9,6 +9,54 @@
     @include('form.description-html-input')
 </div>
 
+<div component="shelf-sort" class="grid half gap-xl">
+    <div class="form-group">
+        <label for="books" id="collection-sort-books-label">{{ trans('entities.collections_books') }}</label>
+        <input refs="shelf-sort@input" type="hidden" name="books"
+               value="{{ isset($collection) ? $collection->visibleBooks->implode('id', ',') : '' }}">
+        <div class="scroll-box-header-item flex-container-row items-center py-xs">
+            <span class="px-m py-xs">{{ trans('entities.collections_drag_books') }}</span>
+            <div class="dropdown-container ml-auto" component="dropdown">
+                <button refs="dropdown@toggle"
+                        type="button"
+                        title="{{ trans('common.more') }}"
+                        class="icon-button px-xs py-xxs mx-xs text-bigger"
+                        aria-haspopup="true"
+                        aria-expanded="false">
+                    @icon('more')
+                </button>
+                <div refs="dropdown@menu shelf-sort@sort-button-container" class="dropdown-menu" role="menu">
+                    <button type="button" class="text-item"
+                            data-sort="name">{{ trans('entities.books_sort_name') }}</button>
+                    <button type="button" class="text-item"
+                            data-sort="created">{{ trans('entities.books_sort_created') }}</button>
+                    <button type="button" class="text-item"
+                            data-sort="updated">{{ trans('entities.books_sort_updated') }}</button>
+                </div>
+            </div>
+        </div>
+        <ul refs="shelf-sort@shelf-book-list"
+            aria-labelledby="collection-sort-books-label"
+            class="scroll-box configured-option-list">
+            @foreach (($collection->visibleBooks ?? []) as $book)
+                @include('shelves.parts.shelf-sort-book-item', ['book' => $book])
+            @endforeach
+        </ul>
+    </div>
+    <div class="form-group">
+        <label for="books" id="collection-sort-all-books-label">{{ trans('entities.collections_add_books') }}</label>
+        <input type="text" refs="shelf-sort@book-search" class="scroll-box-search"
+               placeholder="{{ trans('common.search') }}">
+        <ul refs="shelf-sort@all-book-list"
+            aria-labelledby="collection-sort-all-books-label"
+            class="scroll-box available-option-list">
+            @foreach ($books as $book)
+                @include('shelves.parts.shelf-sort-book-item', ['book' => $book])
+            @endforeach
+        </ul>
+    </div>
+</div>
+
 <div class="form-group collapsible" component="collapsible" id="logo-control">
     <button refs="collapsible@trigger" type="button" class="collapse-title text-link" aria-expanded="false">
         <label>{{ trans('common.cover_image') }}</label>
@@ -18,7 +66,7 @@
 
         @include('form.image-picker', [
             'defaultImage' => url('/book_default_cover.png'),
-            'currentImage' => url('/book_default_cover.png'),
+            'currentImage' => (($collection ?? null)?->coverInfo()->getUrl(440, 250, null) ?? url('/book_default_cover.png')),
             'name' => 'image',
             'imageClass' => 'cover'
         ])
@@ -30,11 +78,15 @@
         <label for="tag-manager">{{ trans('entities.collections_tags') }}</label>
     </button>
     <div refs="collapsible@content" class="collapse-content">
-        @include('entities.tag-manager', ['entity' => null])
+        @include('entities.tag-manager', ['entity' => $collection ?? null])
     </div>
 </div>
 
 <div class="form-group text-right">
-    <a href="{{ $returnLocation }}" class="button outline">{{ trans('common.cancel') }}</a>
-    <a href="{{ $returnLocation }}" class="button">{{ trans('entities.collections_save') }}</a>
+    <a href="{{ isset($collection) ? $collection->getUrl() : ($returnLocation ?? url('/collections')) }}"
+       class="button outline">{{ trans('common.cancel') }}</a>
+    <button type="submit" class="button">{{ trans('entities.collections_save') }}</button>
 </div>
+
+@include('entities.selector-popup')
+@include('form.editor-translations')

@@ -140,6 +140,7 @@ abstract class Entity extends Model implements
     public function isContainer(): bool
     {
         return $this instanceof Bookshelf ||
+            $this instanceof Collection ||
             $this instanceof Book ||
             $this instanceof Chapter;
     }
@@ -478,6 +479,7 @@ abstract class Entity extends Model implements
             'page' => new Page(),
             'chapter' => new Chapter(),
             'book' => new Book(),
+            'collection' => new Collection(),
             'bookshelf' => new Bookshelf(),
         };
     }

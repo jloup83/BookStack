@@ -92,6 +92,19 @@ enum Permission: string
     case BookshelfViewAll = 'bookshelf-view-all';
     case BookshelfViewOwn = 'bookshelf-view-own';
 
+    case CollectionCreate = 'collection-create';
+    case CollectionCreateAll = 'collection-create-all';
+    case CollectionCreateOwn = 'collection-create-own';
+    case CollectionDelete = 'collection-delete';
+    case CollectionDeleteAll = 'collection-delete-all';
+    case CollectionDeleteOwn = 'collection-delete-own';
+    case CollectionUpdate = 'collection-update';
+    case CollectionUpdateAll = 'collection-update-all';
+    case CollectionUpdateOwn = 'collection-update-own';
+    case CollectionView = 'collection-view';
+    case CollectionViewAll = 'collection-view-all';
+    case CollectionViewOwn = 'collection-view-own';
+
     case ChapterCreate = 'chapter-create';
     case ChapterCreateAll = 'chapter-create-all';
     case ChapterCreateOwn = 'chapter-create-own';

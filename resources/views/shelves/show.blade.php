@@ -29,7 +29,28 @@
 
         <div class="book-content">
             <div class="text-muted break-text">{!! $shelf->descriptionInfo()->getHtml() !!}</div>
+
+            @if(count($visibleCollections) > 0)
+                <h5 class="mt-m mb-s">{{ trans('entities.collections') }}</h5>
+                @if($view === 'list')
+                    <div class="entity-list">
+                        @foreach($visibleCollections as $collection)
+                            @include('entities.list-item', ['entity' => $collection])
+                        @endforeach
+                    </div>
+                @else
+                    <div class="grid third">
+                        @foreach($visibleCollections as $collection)
+                            @include('entities.grid-item', ['entity' => $collection])
+                        @endforeach
+                    </div>
+                @endif
+            @endif
+
             @if(count($sortedVisibleShelfBooks) > 0)
+                @if(count($visibleCollections) > 0)
+                    <h5 class="mt-m mb-s">{{ trans('entities.books') }}</h5>
+                @endif
                 @if($view === 'list')
                     <div class="entity-list">
                         @foreach($sortedVisibleShelfBooks as $book)
@@ -44,6 +65,7 @@
                     </div>
                 @endif
             @else
+                @if(count($visibleCollections) === 0)
                 <div class="mt-xl">
                     <hr>
                     <p class="text-muted italic mt-xl mb-m">{{ trans('entities.shelves_empty_contents') }}</p>
@@ -62,6 +84,7 @@
                         @endif
                     </div>
                 </div>
+                @endif
             @endif
         </div>
     </main>

@@ -26,6 +26,10 @@ class ActivityType
     const BOOKSHELF_UPDATE = 'bookshelf_update';
     const BOOKSHELF_DELETE = 'bookshelf_delete';
 
+    const COLLECTION_CREATE = 'collection_create';
+    const COLLECTION_UPDATE = 'collection_update';
+    const COLLECTION_DELETE = 'collection_delete';
+
     const COMMENTED_ON = 'commented_on';
     const COMMENT_CREATE = 'comment_create';
     const COMMENT_UPDATE = 'comment_update';

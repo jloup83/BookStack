@@ -134,6 +134,8 @@ class BookshelfController extends Controller
             ->values()
             ->all();
 
+        $visibleCollections = $shelf->visibleCollections()->get()->values()->all();
+
         View::incrementFor($shelf);
         $this->shelfContext->setShelfContext($shelf->id);
         $view = setting()->getForCurrentUser('bookshelf_view_type');
@@ -143,6 +145,7 @@ class BookshelfController extends Controller
         return view('shelves.show', [
             'shelf'                   => $shelf,
             'sortedVisibleShelfBooks' => $sortedVisibleShelfBooks,
+            'visibleCollections'      => $visibleCollections,
             'view'                    => $view,
             'activity'                => $activities->entityActivity($shelf, 20, 1),
             'listOptions'             => $listOptions,

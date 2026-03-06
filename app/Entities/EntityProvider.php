@@ -5,6 +5,7 @@ namespace BookStack\Entities;
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Bookshelf;
 use BookStack\Entities\Models\Chapter;
+use BookStack\Entities\Models\Collection;
 use BookStack\Entities\Models\Entity;
 use BookStack\Entities\Models\Page;
 use BookStack\Entities\Models\PageRevision;
@@ -19,6 +20,7 @@ use BookStack\Entities\Models\PageRevision;
 class EntityProvider
 {
     public Bookshelf $bookshelf;
+    public Collection $collection;
     public Book $book;
     public Chapter $chapter;
     public Page $page;
@@ -27,6 +29,7 @@ class EntityProvider
     public function __construct()
     {
         $this->bookshelf = new Bookshelf();
+        $this->collection = new Collection();
         $this->book = new Book();
         $this->chapter = new Chapter();
         $this->page = new Page();
@@ -42,10 +45,11 @@ class EntityProvider
     public function all(): array
     {
         return [
-            'bookshelf' => $this->bookshelf,
-            'book'      => $this->book,
-            'chapter'   => $this->chapter,
-            'page'      => $this->page,
+            'bookshelf'  => $this->bookshelf,
+            'collection' => $this->collection,
+            'book'       => $this->book,
+            'chapter'    => $this->chapter,
+            'page'       => $this->page,
         ];
     }
 

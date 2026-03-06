@@ -58,7 +58,17 @@ Route::middleware('auth')->group(function () {
 
     // Collection Creation
     Route::get('/shelves/{shelfSlug}/create-collection', [EntityControllers\CollectionController::class, 'create']);
+    Route::post('/shelves/{shelfSlug}/create-collection', [EntityControllers\CollectionController::class, 'store']);
     Route::get('/create-collection', [EntityControllers\CollectionController::class, 'create']);
+
+    // Collections
+    Route::get('/collections/', [EntityControllers\CollectionController::class, 'index']);
+    Route::post('/collections/', [EntityControllers\CollectionController::class, 'store']);
+    Route::get('/collections/{slug}/edit', [EntityControllers\CollectionController::class, 'edit']);
+    Route::get('/collections/{slug}/delete', [EntityControllers\CollectionController::class, 'showDelete']);
+    Route::get('/collections/{slug}', [EntityControllers\CollectionController::class, 'show']);
+    Route::put('/collections/{slug}', [EntityControllers\CollectionController::class, 'update']);
+    Route::delete('/collections/{slug}', [EntityControllers\CollectionController::class, 'destroy']);
 
     // Book Creation
     Route::get('/shelves/{shelfSlug}/create-book', [EntityControllers\BookController::class, 'create']);

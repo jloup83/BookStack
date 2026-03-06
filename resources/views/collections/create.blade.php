@@ -13,9 +13,9 @@
                 ]])
             @else
                 @include('entities.breadcrumbs', ['crumbs' => [
-                    '/shelves' => [
-                        'text' => trans('entities.shelves'),
-                        'icon' => 'bookshelf'
+                    '/collections' => [
+                        'text' => trans('entities.collections'),
+                        'icon' => 'books'
                     ],
                     '/create-collection' => [
                         'text' => trans('entities.collections_create'),
@@ -27,9 +27,9 @@
 
         <main class="content-wrap card">
             <h1 class="list-heading">{{ trans('entities.collections_create') }}</h1>
-            <form action="{{ $bookshelf?->getUrl() ?? url('/shelves') }}" method="GET">
+            <form action="{{ $bookshelf?->getUrl('/create-collection') ?? url('/collections') }}" method="POST" enctype="multipart/form-data">
                 @include('collections.parts.form', [
-                    'returnLocation' => $bookshelf?->getUrl() ?? url('/shelves')
+                    'returnLocation' => $bookshelf?->getUrl() ?? url('/collections')
                 ])
             </form>
         </main>

@@ -8,6 +8,7 @@ use BookStack\Activity\Tools\ActivityLogger;
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Bookshelf;
 use BookStack\Entities\Models\Chapter;
+use BookStack\Entities\Models\Collection;
 use BookStack\Entities\Models\Page;
 use BookStack\Exceptions\BookStackExceptionHandlerPage;
 use BookStack\Http\HttpRequestService;
@@ -77,11 +78,12 @@ class AppServiceProvider extends ServiceProvider
 
         // Set morph-map for our relations to friendlier aliases
         Relation::enforceMorphMap([
-            'bookshelf' => Bookshelf::class,
-            'book'      => Book::class,
-            'chapter'   => Chapter::class,
-            'page'      => Page::class,
-            'comment'   => Comment::class,
+            'bookshelf'  => Bookshelf::class,
+            'collection' => Collection::class,
+            'book'       => Book::class,
+            'chapter'    => Chapter::class,
+            'page'       => Page::class,
+            'comment'    => Comment::class,
         ]);
     }
 }
