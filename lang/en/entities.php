@@ -195,6 +195,12 @@ return [
     'books_copy' => 'Copy Book',
     'books_copy_success' => 'Book successfully copied',
 
+    // Collections
+    'collections_create' => 'Create New Collection',
+    'collections_new_action' => 'New Collection',
+    'collections_save' => 'Save Collection',
+    'collections_tags' => 'Collection Tags',
+
     // Chapters
     'chapter' => 'Chapter',
     'chapters' => 'Chapters',

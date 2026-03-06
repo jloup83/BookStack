@@ -7,6 +7,10 @@
                 <span class="icon">@icon('add')</span>
                 <span>{{ trans('entities.books_new_action') }}</span>
             </a>
+            <a href="{{ $shelf->getUrl('/create-collection') }}" class="icon-list-item">
+                <span class="icon">@icon('add')</span>
+                <span>{{ trans('entities.collections_new_action') }}</span>
+            </a>
         @endif
 
         @include('entities.view-toggle', ['view' => $view, 'type' => 'bookshelf'])

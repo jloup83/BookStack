@@ -56,6 +56,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/shelves/{slug}/copy-permissions', [PermissionsController::class, 'copyShelfPermissionsToBooks']);
     Route::get('/shelves/{slug}/references', [ReferenceController::class, 'shelf']);
 
+    // Collection Creation
+    Route::get('/shelves/{shelfSlug}/create-collection', [EntityControllers\CollectionController::class, 'create']);
+    Route::get('/create-collection', [EntityControllers\CollectionController::class, 'create']);
+
     // Book Creation
     Route::get('/shelves/{shelfSlug}/create-book', [EntityControllers\BookController::class, 'create']);
     Route::post('/shelves/{shelfSlug}/create-book', [EntityControllers\BookController::class, 'store']);
