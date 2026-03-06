@@ -127,14 +127,21 @@ class BookshelfController extends Controller
         ]);
 
         $sort = $listOptions->getSort();
+        $order = $listOptions->getOrder();
+        $sortColumn = $sort === 'default' ? 'name' : $sort;
 
-        $sortedVisibleShelfBooks = $shelf->visibleBooks()
-            ->reorder($sort === 'default' ? 'order' : $sort, $listOptions->getOrder())
-            ->get()
+        $books = $shelf->visibleBooks()
+            ->reorder($sort === 'default' ? 'order' : $sort, $order)
+            ->get();
+
+        $collections = $shelf->visibleCollections()
+            ->reorder($sortColumn, $order)
+            ->get();
+
+        $shelfChildren = $books->concat($collections)
+            ->sortBy($sortColumn, SORT_REGULAR, $order === 'desc')
             ->values()
             ->all();
-
-        $visibleCollections = $shelf->visibleCollections()->get()->values()->all();
 
         View::incrementFor($shelf);
         $this->shelfContext->setShelfContext($shelf->id);
@@ -143,13 +150,12 @@ class BookshelfController extends Controller
         $this->setPageTitle($shelf->getShortName());
 
         return view('shelves.show', [
-            'shelf'                   => $shelf,
-            'sortedVisibleShelfBooks' => $sortedVisibleShelfBooks,
-            'visibleCollections'      => $visibleCollections,
-            'view'                    => $view,
-            'activity'                => $activities->entityActivity($shelf, 20, 1),
-            'listOptions'             => $listOptions,
-            'referenceCount'          => $this->referenceFetcher->getReferenceCountToEntity($shelf),
+            'shelf'         => $shelf,
+            'shelfChildren' => $shelfChildren,
+            'view'          => $view,
+            'activity'      => $activities->entityActivity($shelf, 20, 1),
+            'listOptions'   => $listOptions,
+            'referenceCount' => $this->referenceFetcher->getReferenceCountToEntity($shelf),
         ]);
     }
 
