@@ -58,6 +58,7 @@ class BookController extends Controller
         $new = $this->queries->visibleForList()->orderBy('created_at', 'desc')->take(4)->get();
 
         $this->shelfContext->clearShelfContext();
+        $this->shelfContext->clearCollectionContext();
 
         $this->setPageTitle(trans('entities.books'));
 

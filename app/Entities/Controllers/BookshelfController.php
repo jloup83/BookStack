@@ -54,6 +54,7 @@ class BookshelfController extends Controller
             ->get();
 
         $this->shelfContext->clearShelfContext();
+        $this->shelfContext->clearCollectionContext();
         $this->setPageTitle(trans('entities.shelves'));
 
         return view('shelves.index', [
@@ -145,6 +146,7 @@ class BookshelfController extends Controller
 
         View::incrementFor($shelf);
         $this->shelfContext->setShelfContext($shelf->id);
+        $this->shelfContext->clearCollectionContext();
         $view = setting()->getForCurrentUser('bookshelf_view_type');
 
         $this->setPageTitle($shelf->getShortName());

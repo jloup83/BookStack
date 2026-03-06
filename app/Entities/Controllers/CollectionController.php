@@ -9,6 +9,7 @@ use BookStack\Entities\Queries\BookshelfQueries;
 use BookStack\Entities\Queries\CollectionQueries;
 use BookStack\Entities\Queries\EntityQueries;
 use BookStack\Entities\Repos\CollectionRepo;
+use BookStack\Entities\Tools\ShelfContext;
 use BookStack\Exceptions\ImageUploadException;
 use BookStack\Exceptions\NotFoundException;
 use BookStack\Http\Controller;
@@ -27,6 +28,7 @@ class CollectionController extends Controller
         protected EntityQueries $entityQueries,
         protected BookQueries $bookQueries,
         protected BookshelfQueries $shelfQueries,
+        protected ShelfContext $shelfContext,
         protected ReferenceFetcher $referenceFetcher,
     ) {
     }
@@ -48,6 +50,9 @@ class CollectionController extends Controller
             ->paginate(18);
 
         $this->setPageTitle(trans('entities.collections'));
+
+        $this->shelfContext->clearShelfContext();
+        $this->shelfContext->clearCollectionContext();
 
         return view('collections.index', [
             'collections' => $collections,
@@ -141,6 +146,7 @@ class CollectionController extends Controller
             ->all();
 
         View::incrementFor($collection);
+        $this->shelfContext->setCollectionContext($collection->id);
         $view = setting()->getForCurrentUser('collection_view_type');
 
         $this->setPageTitle($collection->getShortName());
